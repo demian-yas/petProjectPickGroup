@@ -1,0 +1,39 @@
+# .NET build output
+**/bin/
+**/obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / JetBrains
+.idea/
+**/.idea/
+*.sln.iml
+
+# Visual Studio
+.vs/
+*.sln.docstates
+
+# Test results
+TestResults/
+**/TestResults/
+
+# Logs
+*.log
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Local configuration with secrets
+appsettings.Local.json
+appsettings.Development.Local.json
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
