@@ -1,0 +1,6 @@
+@PickGroup.API_HostAddress = http://localhost:5231
+
+GET {{PickGroup.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

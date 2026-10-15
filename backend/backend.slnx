@@ -1,2 +1,3 @@
 <Solution>
+  <Project Path="src/PickGroup.API/PickGroup.API.csproj" />
 </Solution>
