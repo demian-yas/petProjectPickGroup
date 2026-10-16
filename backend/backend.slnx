@@ -1,3 +1,6 @@
 <Solution>
   <Project Path="src/PickGroup.API/PickGroup.API.csproj" />
+  <Project Path="src/PickGroup.Application/PickGroup.Application.csproj" />
+  <Project Path="src/PickGroup.Domain/PickGroup.Domain.csproj" />
+  <Project Path="src/PickGroup.Infrastructure/PickGroup.Infrastructure.csproj" />
 </Solution>
