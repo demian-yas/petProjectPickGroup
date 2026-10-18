@@ -6,16 +6,16 @@ public class OrderItem
     public Guid Id { get; private set; }
     
     // ID товара во внешней системе, например 1С
-    public string ProductId { get; private set; } = null!;
-    
+    public string? ExternalId { get; private set; }
+
     // Место хранения товара
-    public string ProductStorage { get; private set; } = null!;
+    public string StorageLocationCode { get; private set; } = null!;
     
     // Наименование товара
     public string ProductName { get; private set; } = null!;
     
     // Наличие сроков товара
-    public bool DateReference { get; private set; }
+    public bool RequiresManufactureDate { get; private set; }
     
     // Комментарий к товару
     public string? Comment { get; private set; }
