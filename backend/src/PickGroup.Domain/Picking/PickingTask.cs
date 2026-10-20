@@ -14,6 +14,9 @@ public class PickingTask
     
     // Ссылка на сборщика
     public Guid PickerId { get; private set; }
+
+    // Текущий этап выполнения задания
+    public PickingTaskStatus Status { get; private set; } = PickingTaskStatus.NotStarted;
     
     // Когда задание назначили сборщику
     public DateTime AssignedAt { get; private set; }
