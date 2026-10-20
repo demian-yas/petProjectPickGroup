@@ -19,11 +19,28 @@ public sealed record DispatchTime
 
      public static Result<DispatchTime> Create(string startTimeStr, string endTimeStr)
      {
-          TimeOnly startTime = TimeOnly.ParseExact(startTimeStr, "HH:mm", CultureInfo.InvariantCulture);
-          TimeOnly endTime = TimeOnly.ParseExact(endTimeStr, "HH:mm", CultureInfo.InvariantCulture);
+          if (!TimeOnly.TryParseExact(
+                   startTimeStr,
+                   "HH:mm",
+                   CultureInfo.InvariantCulture,
+                   DateTimeStyles.None,
+                   out var startTime))
+          {
+               return Result.Failure<DispatchTime>("Invalid time format");
+          }
+
+          if (!TimeOnly.TryParseExact(
+                   endTimeStr,
+                   "HH:mm",
+                   CultureInfo.InvariantCulture,
+                   DateTimeStyles.None,
+                   out var endTime))
+          {
+               return Result.Failure<DispatchTime>("Invalid time format");
+          }
 
           var dispatchTime = new DispatchTime(startTime, endTime);
 
-          return dispatchTime;
+          return Result.Success(dispatchTime);
      }
 }
