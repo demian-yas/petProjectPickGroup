@@ -1,6 +1,6 @@
 ﻿namespace PickGroup.Domain.Common;
 
-public abstract class MethodsId
+public abstract record MethodsId
 {
     protected MethodsId(Guid value)
     {
