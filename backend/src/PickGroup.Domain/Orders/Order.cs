@@ -15,6 +15,9 @@ public class Order
 
     // Позиции заказа
     public IReadOnlyCollection<OrderItem> Items => _items;
+
+    // Текущее состояние заказа
+    public OrderStatus Status { get; private set; } = OrderStatus.Pending;
     
     // Версия состава заказа
     public int Version { get; private set; } = 1;
