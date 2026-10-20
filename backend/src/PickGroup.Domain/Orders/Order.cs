@@ -3,6 +3,10 @@
 public class Order
 {
     private readonly List<OrderItem> _items = [];
+
+    // ef core
+    private Order() { }
+    
     
     // Внутренний ID заказа
     public Guid Id { get; private set; }
