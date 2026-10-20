@@ -13,6 +13,13 @@ public class Order
     // ID заказа во внешней системе, например 1С
     public string? ExternalId { get; private set; }
 
+    // Имя человека, который принял заказ
+    public string PersonNameAccepted { get; private set; } = null!;
+    
+    // Номер телефона менеджера
+    // Можно сделать VO !!!
+    public string ManagerPhoneNumber { get; private set; } = null!;
+    
     // Позиции заказа
     public IReadOnlyCollection<OrderItem> Items => _items;
 
@@ -21,6 +28,13 @@ public class Order
     
     // Версия состава заказа
     public int Version { get; private set; } = 1;
+    
+    // Адрес доставки
+    public string DeliveryAddress { get; private set; } = null!;
+    
+    // Указананое время для отправки отправки
+    // Можно сделать VO !!!
+    public string DispatchTime { get; private set; } = null!;
     
     // Время создания
     public DateTime CreatedAt { get; private set; }
