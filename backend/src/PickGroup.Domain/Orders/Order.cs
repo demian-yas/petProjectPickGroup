@@ -1,15 +1,32 @@
-﻿namespace PickGroup.Domain.Orders;
+﻿using PickGroup.Domain.Common;
+using PickGroup.Domain.Orders.OrdersIds;
 
-public class Order
+namespace PickGroup.Domain.Orders;
+
+public class Order : Entity<OrderId>
 {
     private readonly List<OrderItem> _items = [];
 
     // ef core
-    private Order() { }
-    
-    
-    // Внутренний ID заказа
-    public Guid Id { get; private set; }
+    private Order(OrderId id) : base(id) { }
+
+    private Order(
+        OrderId orderId, 
+        string orderNumber,
+        string? externalId,
+        string managerName,
+        string managerPhoneNumber,
+        string deliveryAddress,
+        string dispatchTime) : base(orderId)
+    {
+        OrderNumber = orderNumber;
+        ExternalId = externalId;
+        ManagerName = managerName;
+        ManagerPhoneNumber = managerPhoneNumber;
+        DeliveryAddress = deliveryAddress;
+        DispatchTime = dispatchTime;
+        CreatedAt = DateTime.Now;
+    }
     
     // Номер, который видят сотрудники
     public string OrderNumber { get; private set; } = null!;
@@ -18,7 +35,7 @@ public class Order
     public string? ExternalId { get; private set; }
 
     // Имя человека, который принял заказ
-    public string PersonNameAccepted { get; private set; } = null!;
+    public string ManagerName { get; private set; } = null!;
     
     // Номер телефона менеджера
     // Можно сделать VO !!!
@@ -36,7 +53,7 @@ public class Order
     // Адрес доставки
     public string DeliveryAddress { get; private set; } = null!;
     
-    // Указананое время для отправки отправки
+    // Указанное время для отправки
     // Можно сделать VO !!!
     public string DispatchTime { get; private set; } = null!;
     
