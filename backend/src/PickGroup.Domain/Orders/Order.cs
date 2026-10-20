@@ -1,9 +1,9 @@
-﻿using PickGroup.Domain.Common;
+﻿using CSharpFunctionalExtensions;
 using PickGroup.Domain.Orders.OrdersIds;
 
 namespace PickGroup.Domain.Orders;
 
-public class Order : Entity<OrderId>
+public class Order : Common.Entity<OrderId>
 {
     private readonly List<OrderItem> _items = [];
 
@@ -62,4 +62,25 @@ public class Order : Entity<OrderId>
     
     // Время последнего изменения
     public DateTime UpdatedAt { get; private set; }
+
+    public static Result<Order> Create(
+        OrderId orderId, 
+        string orderNumber,
+        string? externalId,
+        string managerName,
+        string managerPhoneNumber,
+        string deliveryAddress,
+        string dispatchTime)
+    {
+        var order = new Order(
+            orderId, 
+            orderNumber, 
+            externalId, 
+            managerName, 
+            managerPhoneNumber, 
+            deliveryAddress, 
+            dispatchTime);
+
+        return order;
+    }
 }
