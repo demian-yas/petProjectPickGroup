@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PickGroup.Domain.Common;
 using PickGroup.Domain.Orders.OrdersIds;
+using PickGroup.Domain.Orders.OrderValueObjects;
 
 namespace PickGroup.Domain.Orders;
 
@@ -18,14 +19,14 @@ public class Order : Common.Entity<OrderId>
         string managerName,
         string managerPhoneNumber,
         string deliveryAddress,
-        string dispatchTime) : base(orderId)
+        DeliverySchedule deliverySchedule) : base(orderId)
     {
         OrderNumber = orderNumber;
         ExternalId = externalId;
         ManagerName = managerName;
         ManagerPhoneNumber = managerPhoneNumber;
         DeliveryAddress = deliveryAddress;
-        DispatchTime = dispatchTime;
+        DeliverySchedule = deliverySchedule;
         CreatedAt = DateTime.Now;
     }
     
@@ -56,7 +57,7 @@ public class Order : Common.Entity<OrderId>
     
     // Указанное время для доставки
     // Можно сделать VO !!!
-    public string DispatchTime { get; private set; } = null!;
+    public DeliverySchedule DeliverySchedule { get; private set; } = null!;
     
     // Время создания
     public DateTime CreatedAt { get; private set; }
@@ -71,7 +72,7 @@ public class Order : Common.Entity<OrderId>
         string managerName,
         string managerPhoneNumber,
         string deliveryAddress,
-        string dispatchTime)
+        DeliverySchedule deliverySchedule)
     {
         var order = new Order(
             orderId, 
@@ -80,7 +81,7 @@ public class Order : Common.Entity<OrderId>
             managerName, 
             managerPhoneNumber, 
             deliveryAddress, 
-            dispatchTime);
+            deliverySchedule);
 
         return order;
     }
