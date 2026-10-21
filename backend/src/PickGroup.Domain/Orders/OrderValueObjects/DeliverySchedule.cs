@@ -17,6 +17,8 @@ public sealed record DeliverySchedule
      }
      
      private const string DateTimeFormat = "yyyy-MM-dd HH:mm:ss";
+     private const int StartNightShift = 22;
+     private const int EndNightShift = 6;
      
      public DateTime StartTime { get; }
      public DateTime EndTime { get; }
@@ -54,16 +56,9 @@ public sealed record DeliverySchedule
                return Errors.General.InvalidTimeRange(startTimeStr, endTimeStr, "endTimeStr");
           }
           
-          DeliveryShift shift;
-          
-          if (endTime.Date <= startTime.Date)
-          {
-               shift = DeliveryShift.Day;
-          }
-          else
-          {
-               shift = DeliveryShift.Night;
-          }
+          var shift = startTime.Hour >= StartNightShift || startTime.Hour < EndNightShift
+               ? DeliveryShift.Day
+               : DeliveryShift.Night;
           
           var deliverySchedule = new DeliverySchedule(startTime, endTime, shift);
 
