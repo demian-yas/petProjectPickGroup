@@ -1,9 +1,31 @@
-﻿namespace PickGroup.Domain.Orders;
+﻿using PickGroup.Domain.Common;
+using PickGroup.Domain.Orders.OrdersIds;
 
-public class OrderItem
+namespace PickGroup.Domain.Orders;
+
+public class OrderItem : Entity<OrderItemId>
 {
-    // Внутренний ID заказа
-    public Guid Id { get; private set; }
+    // ef core
+    private OrderItem(OrderItemId id) : base(id) { }
+
+    private OrderItem(
+        OrderItemId orderItemId,
+        string? externalId,
+        string storageLocationCode,
+        string productName,
+        bool requiresManufactureDate,
+        string? comment,
+        decimal requiredQuantity,
+        string unit) : base(orderItemId)
+    {
+        ExternalId = externalId;
+        StorageLocationCode = storageLocationCode;
+        ProductName = productName;
+        RequiresManufactureDate = requiresManufactureDate;
+        Comment = comment;
+        RequiredQuantity = requiredQuantity;
+        Unit = unit;
+    }
     
     // ID товара во внешней системе, например 1С
     public string? ExternalId { get; private set; }

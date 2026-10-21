@@ -56,7 +56,6 @@ public class Order : Common.Entity<OrderId>
     public string DeliveryAddress { get; private set; } = null!;
     
     // Указанное время для доставки
-    // Можно сделать VO !!!
     public DeliverySchedule DeliverySchedule { get; private set; } = null!;
     
     // Время создания
