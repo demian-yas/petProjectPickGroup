@@ -1,9 +1,10 @@
-﻿using PickGroup.Domain.Common;
+﻿using CSharpFunctionalExtensions;
+using PickGroup.Domain.Common;
 using PickGroup.Domain.Orders.OrdersIds;
 
 namespace PickGroup.Domain.Orders;
 
-public class OrderItem : Entity<OrderItemId>
+public class OrderItem : Common.Entity<OrderItemId>
 {
     // ef core
     private OrderItem(OrderItemId id) : base(id) { }
@@ -48,4 +49,27 @@ public class OrderItem : Entity<OrderItemId>
     // базовая единица
     // VO
     public string Unit { get; private set; } = null!;
+
+    public static Result<OrderItem, Error> Create(
+        OrderItemId orderItemId,
+        string? externalId,
+        string storageLocationCode,
+        string productName,
+        bool requiresManufactureDate,
+        string? comment,
+        decimal requiredQuantity,
+        string unit)
+    {
+        var orderItem = new OrderItem(
+            orderItemId,
+            externalId,
+            storageLocationCode,
+            productName,
+            requiresManufactureDate,
+            comment,
+            requiredQuantity,
+            unit);
+
+        return orderItem;
+    }
 }
