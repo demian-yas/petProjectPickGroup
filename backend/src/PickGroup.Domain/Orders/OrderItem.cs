@@ -46,5 +46,6 @@ public class OrderItem : Entity<OrderItemId>
     public decimal RequiredQuantity { get; private set; }
 
     // базовая единица
+    // VO
     public string Unit { get; private set; } = null!;
 }
