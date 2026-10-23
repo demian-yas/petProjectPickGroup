@@ -60,6 +60,15 @@ public class OrderItem : Common.Entity<OrderItemId>
         decimal requiredQuantity,
         string unit)
     {
+        if (string.IsNullOrEmpty(storageLocationCode))
+            return Errors.General.ValueIsEmpty("storageLocationCode");
+        
+        if (string.IsNullOrEmpty(productName))
+            return Errors.General.ValueIsEmpty("productName");
+        
+        if (requiredQuantity <= 0)
+            return Errors.General.ValueIsEmpty("requiredQuantity");
+        
         var orderItem = new OrderItem(
             orderItemId,
             externalId,
