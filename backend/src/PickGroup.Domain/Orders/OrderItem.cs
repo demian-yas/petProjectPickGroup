@@ -17,7 +17,7 @@ public class OrderItem : Common.Entity<OrderItemId>
         bool requiresManufactureDate,
         string? comment,
         decimal requiredQuantity,
-        string unit) : base(orderItemId)
+        Unit unit) : base(orderItemId)
     {
         ExternalId = externalId;
         StorageLocationCode = storageLocationCode;
@@ -47,8 +47,7 @@ public class OrderItem : Common.Entity<OrderItemId>
     public decimal RequiredQuantity { get; private set; }
 
     // базовая единица
-    // VO
-    public string Unit { get; private set; } = null!;
+    public Unit Unit { get; private set; }
 
     public static Result<OrderItem, Error> Create(
         OrderItemId orderItemId,
@@ -58,7 +57,7 @@ public class OrderItem : Common.Entity<OrderItemId>
         bool requiresManufactureDate,
         string? comment,
         decimal requiredQuantity,
-        string unit)
+        Unit unit)
     {
         if (string.IsNullOrEmpty(storageLocationCode))
             return Errors.General.ValueIsEmpty("storageLocationCode");
