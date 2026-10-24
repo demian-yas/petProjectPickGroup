@@ -73,11 +73,17 @@ public class Order : Common.Entity<OrderId>
         string deliveryAddress,
         DeliverySchedule deliverySchedule)
     {
+        if (orderId is null)
+            return Errors.General.ValueIsEmpty("orderId");
+        
         if (string.IsNullOrEmpty(orderNumber))
             return Errors.General.ValueIsEmpty("orderNumber");
         
         if (string.IsNullOrEmpty(managerName))
             return Errors.General.ValueIsEmpty("managerName");
+        
+        if (string.IsNullOrEmpty(managerPhoneNumber))
+            return Errors.General.ValueIsEmpty("managerPhoneNumber");
         
         if (string.IsNullOrEmpty(deliveryAddress))
             return Errors.General.ValueIsEmpty("deliveryAddress");

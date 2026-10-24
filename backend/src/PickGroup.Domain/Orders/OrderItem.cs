@@ -59,6 +59,9 @@ public class OrderItem : Common.Entity<OrderItemId>
         decimal requiredQuantity,
         Unit unit)
     {
+        if (orderItemId is null)
+            return Errors.General.ValueIsEmpty("orderItemId");
+        
         if (string.IsNullOrEmpty(storageLocationCode))
             return Errors.General.ValueIsEmpty("storageLocationCode");
         
