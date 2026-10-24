@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using PickGroup.Domain.Common;
+using PickGroup.Domain.Orders;
 using PickGroup.Domain.Orders.OrdersIds;
 using PickGroup.Domain.Orders.OrderValueObjects;
 
@@ -103,9 +104,22 @@ public class Order : Common.Entity<OrderId>
         return order;
     }
 
-    public Result AddItem(OrderItem item)
+    public UnitResult<Error> AddItem(OrderItem item)
     {
-        // Logic
-        return Result.Combine();
+        if (item is null)
+            return Errors.General.ValueIsEmpty("item");
+        
+        _items.Add(item);
+        
+        return Result.Success<Error>();
+    }
+
+    public UnitResult<Error> AddItems(IEnumerable<OrderItem> items)
+    {
+        var itemsToAdd = items.ToList();
+        
+        _items.AddRange(itemsToAdd);
+        
+        return Result.Success<Error>();
     }
 }
