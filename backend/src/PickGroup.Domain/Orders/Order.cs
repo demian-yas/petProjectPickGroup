@@ -40,7 +40,7 @@ public class Order : Common.Entity<OrderId>
     public string ManagerName { get; private set; } = null!;
     
     // Номер телефона менеджера
-    // Можно сделать VO !!!
+    // VO ?
     public string ManagerPhoneNumber { get; private set; } = null!;
     
     // Позиции заказа
@@ -101,5 +101,11 @@ public class Order : Common.Entity<OrderId>
             deliverySchedule);
 
         return order;
+    }
+
+    public Result AddItem(OrderItem item)
+    {
+        // Logic
+        return Result.Combine();
     }
 }
