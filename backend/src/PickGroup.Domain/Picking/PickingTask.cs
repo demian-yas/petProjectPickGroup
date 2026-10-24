@@ -1,5 +1,6 @@
 ﻿
 using PickGroup.Domain.Common;
+using PickGroup.Domain.Orders;
 using PickGroup.Domain.Picking.PickingsIds;
 
 namespace PickGroup.Domain.Picking;
@@ -30,6 +31,7 @@ public class PickingTask : Entity<PickingTaskId>
     
     // Ссылка на заказ
     public Guid OrderId { get; private set; }
+    public Order Order { get; private set; }
     
     // Версия заказа, на основе которой создано задание
     public int OrderVersion { get; private set; }

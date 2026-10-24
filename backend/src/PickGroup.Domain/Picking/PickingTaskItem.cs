@@ -1,10 +1,33 @@
-﻿namespace PickGroup.Domain.Picking;
+﻿using PickGroup.Domain.Common;
+using PickGroup.Domain.Picking.PickingsIds;
 
-public class PickingTaskItem
+namespace PickGroup.Domain.Picking;
+
+public class PickingTaskItem : Entity<PickingTaskItemId>
 {
-    
-    // Уникальный идентификатор
-    public Guid Id { get; private set; }
+    // ef core
+    private PickingTaskItem(PickingTaskItemId id) : base(id) { }
+
+    private PickingTaskItem(
+        PickingTaskItemId pickingTaskItemId,
+        Guid orderItemId,
+        string productCode,
+        string productName,
+        string storageLocationCode,
+        decimal requiredQuantity,
+        decimal pickedQuantity,
+        string? shortageReason,
+        DateOnly? manufactureDate) : base(pickingTaskItemId)
+    {
+        OrderItemId = orderItemId;
+        ProductCode = productCode;
+        ProductName = productName;
+        StorageLocationCode = storageLocationCode;
+        RequiredQuantity = requiredQuantity;
+        PickedQuantity = pickedQuantity;
+        ShortageReason = shortageReason;
+        ManufactureDate = manufactureDate;
+    }
     
     // Ссылка на исходную позицию заказа
     public Guid OrderItemId { get; private set; }
