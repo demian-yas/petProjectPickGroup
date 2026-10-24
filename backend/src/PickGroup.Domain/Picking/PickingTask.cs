@@ -1,10 +1,32 @@
 ﻿
+using PickGroup.Domain.Common;
+using PickGroup.Domain.Picking.PickingsIds;
+
 namespace PickGroup.Domain.Picking;
 
-public class PickingTask
+public class PickingTask : Entity<PickingTaskId>
 {
-    // Уникальный идентификатор задания
-    public Guid Id { get; private set; }
+    // ef core
+    private PickingTask(PickingTaskId id) : base(id) { }
+
+    private PickingTask(
+        PickingTaskId pickingTaskId,
+        Guid orderId,
+        int orderVersion,
+        Guid pickerId,
+        PickingTaskStatus status,
+        DateTime assignedAt,
+        DateTime? startedAt,
+        DateTime? pickingCompletedAt) : base(pickingTaskId)
+    {
+        OrderId = orderId;
+        OrderVersion = orderVersion;
+        PickerId = pickerId;
+        Status = status;
+        AssignedAt = assignedAt;
+        StartedAt = startedAt;
+        PickingCompletedAt = pickingCompletedAt;
+    }
     
     // Ссылка на заказ
     public Guid OrderId { get; private set; }
