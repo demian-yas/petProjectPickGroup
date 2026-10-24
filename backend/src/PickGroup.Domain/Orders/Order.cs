@@ -118,6 +118,12 @@ public class Order : Common.Entity<OrderId>
     {
         var itemsToAdd = items.ToList();
         
+        if (itemsToAdd.Count == 0)
+            return Errors.General.ValueIsEmpty("items");
+        
+        if (itemsToAdd.Any(i => i is null))
+            return Errors.General.ValueIsEmpty("items");
+        
         _items.AddRange(itemsToAdd);
         
         return Result.Success<Error>();
