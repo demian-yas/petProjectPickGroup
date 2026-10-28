@@ -17,7 +17,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             .HasConversion(
                 id => id.Value,
                 value => OrderId.Create(value));
-
+        
         builder.Property(o => o.OrderNumber)
             .IsRequired();
 
@@ -28,6 +28,14 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         
         builder.Property(o => o.ManagerPhoneNumber)
             .IsRequired();
+
+        builder.HasMany(o => o.Items)
+            .WithOne()
+            .HasForeignKey("order_id");
+        
+        builder.Navigation(o => o.Items)
+            .HasField("_items")
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
         
         builder.Property(o => o.Status)
             .IsRequired();
