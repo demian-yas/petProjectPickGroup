@@ -62,14 +62,14 @@ public class OrderItem : Common.Entity<OrderItemId>
         if (orderItemId is null)
             return Errors.General.ValueIsEmpty("orderItemId");
         
-        if (string.IsNullOrEmpty(storageLocationCode))
+        if (string.IsNullOrWhiteSpace(storageLocationCode))
             return Errors.General.ValueIsEmpty("storageLocationCode");
         
-        if (string.IsNullOrEmpty(productName))
+        if (string.IsNullOrWhiteSpace(productName))
             return Errors.General.ValueIsEmpty("productName");
         
         if (requiredQuantity <= 0)
-            return Errors.General.ValueIsEmpty("requiredQuantity");
+            return Errors.General.ValueIsInvalid("requiredQuantity");
         
         var orderItem = new OrderItem(
             orderItemId,
