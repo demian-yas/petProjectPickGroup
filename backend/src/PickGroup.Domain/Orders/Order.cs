@@ -116,6 +116,9 @@ public class Order : Common.Entity<OrderId>
 
     public UnitResult<Error> AddItems(IEnumerable<OrderItem> items)
     {
+        if (items is null)
+            return Errors.General.ValueIsEmpty("items");
+        
         var itemsToAdd = items.ToList();
         
         if (itemsToAdd.Count == 0)
