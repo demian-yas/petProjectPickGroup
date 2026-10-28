@@ -9,7 +9,12 @@ public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
 {
     public void Configure(EntityTypeBuilder<OrderItem> builder)
     {
-        builder.ToTable("OrderItems");
+        builder.ToTable("order_items", table =>
+        {
+            table.HasCheckConstraint(
+                "ck_order_items_required_quantity_positive",
+                "require_quantity > 0");
+        });
         
         builder.HasKey(o => o.Id);
         
