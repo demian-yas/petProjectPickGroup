@@ -13,7 +13,7 @@ public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
         {
             table.HasCheckConstraint(
                 "ck_order_items_required_quantity_positive",
-                "require_quantity > 0");
+                "required_quantity > 0");
         });
         
         builder.HasKey(o => o.Id);

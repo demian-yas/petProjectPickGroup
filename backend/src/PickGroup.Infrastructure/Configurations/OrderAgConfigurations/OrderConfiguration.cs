@@ -9,7 +9,12 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
 {
     public void Configure(EntityTypeBuilder<Order> builder)
     {
-        builder.ToTable("orders");
+        builder.ToTable("orders", table =>
+        {
+            table.HasCheckConstraint(
+                "ck_orders_version_positive",
+                "version > 0");
+        });
         
         builder.HasKey(o => o.Id);
 
