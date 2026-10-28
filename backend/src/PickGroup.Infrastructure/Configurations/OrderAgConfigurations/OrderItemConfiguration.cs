@@ -27,7 +27,8 @@ public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
             .IsRequired();
 
         builder.Property(o => o.RequiresManufactureDate)
-            .IsRequired();
+            .IsRequired()
+            .HasDefaultValue(false);
 
         builder.Property(o => o.Comment);
         
