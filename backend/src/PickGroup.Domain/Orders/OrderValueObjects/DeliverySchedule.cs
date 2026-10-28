@@ -57,8 +57,8 @@ public sealed record DeliverySchedule
           }
           
           var shift = startTime.Hour >= StartNightShift || startTime.Hour < EndNightShift
-               ? DeliveryShift.Day
-               : DeliveryShift.Night;
+               ? DeliveryShift.Night
+               : DeliveryShift.Day;
           
           var deliverySchedule = new DeliverySchedule(startTime, endTime, shift);
 
