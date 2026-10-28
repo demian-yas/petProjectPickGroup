@@ -17,7 +17,39 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             .HasConversion(
                 id => id.Value,
                 value => OrderId.Create(value));
+
+        builder.Property(o => o.OrderNumber)
+            .IsRequired();
+
+        builder.Property(o => o.ExternalId);
         
+        builder.Property(o => o.ManagerName)
+            .IsRequired();
         
+        builder.Property(o => o.ManagerPhoneNumber)
+            .IsRequired();
+        
+        builder.Property(o => o.Status)
+            .IsRequired();
+        
+        builder.Property(o => o.Version)
+            .HasConversion<string>()
+            .IsRequired();
+        
+        builder.Property(o => o.DeliveryAddress)
+            .IsRequired();
+
+        builder.OwnsOne(o => o.DeliverySchedule, a =>
+        {
+            a.Property(d => d.StartTime).HasColumnName("delivery_start_time");
+            a.Property(d => d.EndTime).HasColumnName("delivery_end_time");
+            a.Property(d => d.Shift).HasColumnName("delivery_shift");
+        });
+
+        builder.Property(o => o.CreatedAt)
+            .HasDefaultValueSql("NOW()");
+
+        builder.Property(o => o.UpdatedAt)
+            .HasDefaultValueSql("NOW()");
     }
 }
