@@ -31,17 +31,17 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
 
         builder.HasMany(o => o.Items)
             .WithOne()
-            .HasForeignKey("order_id");
+            .HasForeignKey("OrderId");
         
         builder.Navigation(o => o.Items)
             .HasField("_items")
             .UsePropertyAccessMode(PropertyAccessMode.Field);
         
         builder.Property(o => o.Status)
+            .HasConversion<string>()
             .IsRequired();
         
         builder.Property(o => o.Version)
-            .HasConversion<string>()
             .IsRequired();
         
         builder.Property(o => o.DeliveryAddress)
