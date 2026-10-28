@@ -17,6 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\PickGroup.Application\PickGroup.Application.csproj" />
       <ProjectReference Include="..\PickGroup.Domain\PickGroup.Domain.csproj" />
     </ItemGroup>
 
