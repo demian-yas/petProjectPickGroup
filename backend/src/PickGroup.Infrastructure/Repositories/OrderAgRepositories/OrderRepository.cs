@@ -11,9 +11,9 @@ public class OrderRepository : IOrderRepository
         _dbContext = dbContext;
     }
 
-    public async Task AddOrderAsync(Domain.Orders.Order order, CancellationToken cancellationToken = default)
+    public async Task AddOrderAsync(Domain.Orders.Order order, CancellationToken ct = default)
     {
-        await _dbContext.Orders.AddAsync(order, cancellationToken);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.Orders.AddAsync(order, ct);
+        await _dbContext.SaveChangesAsync(ct);
     }
 }
