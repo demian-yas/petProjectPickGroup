@@ -15,7 +15,7 @@ public class CreateOrderHandler
         _orderRepository = orderRepository;
     }
 
-    public async Task<Result<Domain.Orders.Order, Error>> CreateOrderAsync(
+    public async Task<Result<Guid, Error>> CreateOrderAsync(
         CreateOrderRequest request,
         CancellationToken ct = default)
     {
@@ -69,6 +69,6 @@ public class CreateOrderHandler
         
         await _orderRepository.AddOrderAsync(order.Value, ct);
         
-        return order;
+        return orderId.Value;
     }
 }

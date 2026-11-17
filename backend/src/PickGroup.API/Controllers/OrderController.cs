@@ -1,4 +1,8 @@
+using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
+using PickGroup.API.Extensions;
+using PickGroup.Application.OrderAg.Order.CreateOrder;
+using PickGroup.Domain.Orders;
 
 namespace PickGroup.API.Controllers;
 
@@ -6,5 +10,14 @@ namespace PickGroup.API.Controllers;
 [Route("[controller]")]
 public class OrderController : ControllerBase
 {
-    
+    [HttpPost]
+    public async Task<ActionResult<Guid>> CreateOrder(
+        [FromServices] CreateOrderHandler handler,
+        [FromBody] CreateOrderRequest request,
+        CancellationToken ct = default)
+    {
+        var order = await handler.CreateOrderAsync(request, ct);
+        
+        return order.ToResponse();
+    }
 }

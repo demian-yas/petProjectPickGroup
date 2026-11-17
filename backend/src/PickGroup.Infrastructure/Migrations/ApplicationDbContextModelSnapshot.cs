@@ -29,10 +29,8 @@ namespace PickGroup.Infrastructure.Migrations
                         .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("NOW()");
+                        .HasColumnName("created_at");
 
                     b.Property<string>("DeliveryAddress")
                         .IsRequired()
@@ -63,11 +61,9 @@ namespace PickGroup.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("status");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at")
-                        .HasDefaultValueSql("NOW()");
+                        .HasColumnName("updated_at");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer")
@@ -146,7 +142,7 @@ namespace PickGroup.Infrastructure.Migrations
                                 .HasColumnName("id");
 
                             b1.Property<DateTime>("EndTime")
-                                .HasColumnType("timestamp with time zone")
+                                .HasColumnType("timestamp without time zone")
                                 .HasColumnName("delivery_end_time");
 
                             b1.Property<int>("Shift")
@@ -154,7 +150,7 @@ namespace PickGroup.Infrastructure.Migrations
                                 .HasColumnName("delivery_shift");
 
                             b1.Property<DateTime>("StartTime")
-                                .HasColumnType("timestamp with time zone")
+                                .HasColumnType("timestamp without time zone")
                                 .HasColumnName("delivery_start_time");
 
                             b1.HasKey("OrderId");

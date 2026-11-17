@@ -28,7 +28,8 @@ public class Order : Common.Entity<OrderId>
         ManagerPhoneNumber = managerPhoneNumber;
         DeliveryAddress = deliveryAddress;
         DeliverySchedule = deliverySchedule;
-        CreatedAt = DateTime.Now;
+        CreatedAt = DateTime.UtcNow;
+        UpdatedAt = null;
     }
     
     // Номер, который видят сотрудники
@@ -63,7 +64,7 @@ public class Order : Common.Entity<OrderId>
     public DateTime CreatedAt { get; private set; }
     
     // Время последнего изменения
-    public DateTime UpdatedAt { get; private set; }
+    public DateTime? UpdatedAt { get; private set; }
 
     public static Result<Order, Error> Create(
         OrderId orderId, 
@@ -100,7 +101,6 @@ public class Order : Common.Entity<OrderId>
             managerPhoneNumber, 
             deliveryAddress, 
             deliverySchedule);
-
         return order;
     }
 

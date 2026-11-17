@@ -16,53 +16,74 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
                 "version > 0");
         });
         
-        builder.HasKey(o => o.Id);
+        builder
+            .HasKey(o => o.Id);
 
-        builder.Property(o => o.Id)
+        builder
+            .Property(o => o.Id)
             .HasConversion(
                 id => id.Value,
                 value => OrderId.Create(value));
         
-        builder.Property(o => o.OrderNumber)
+        builder
+            .Property(o => o.OrderNumber)
             .IsRequired();
 
-        builder.Property(o => o.ExternalId);
+        builder
+            .Property(o => o.ExternalId);
         
-        builder.Property(o => o.ManagerName)
+        builder
+            .Property(o => o.ManagerName)
             .IsRequired();
         
-        builder.Property(o => o.ManagerPhoneNumber)
+        builder
+            .Property(o => o.ManagerPhoneNumber)
             .IsRequired();
 
-        builder.HasMany(o => o.Items)
+        builder
+            .HasMany(o => o.Items)
             .WithOne()
             .HasForeignKey("OrderId");
         
-        builder.Navigation(o => o.Items)
+        builder
+            .Navigation(o => o.Items)
             .HasField("_items")
             .UsePropertyAccessMode(PropertyAccessMode.Field);
         
-        builder.Property(o => o.Status)
+        builder
+            .Property(o => o.Status)
             .HasConversion<string>()
             .IsRequired();
         
-        builder.Property(o => o.Version)
+        builder
+            .Property(o => o.Version)
             .IsRequired();
         
-        builder.Property(o => o.DeliveryAddress)
+        builder
+            .Property(o => o.DeliveryAddress)
             .IsRequired();
 
         builder.OwnsOne(o => o.DeliverySchedule, a =>
         {
-            a.Property(d => d.StartTime).HasColumnName("delivery_start_time");
-            a.Property(d => d.EndTime).HasColumnName("delivery_end_time");
-            a.Property(d => d.Shift).HasColumnName("delivery_shift");
+            a.Property(d => d.StartTime)
+                .HasColumnName("delivery_start_time")
+                .HasColumnType("timestamp without time zone");
+            
+            a.Property(d => d.EndTime)
+                .HasColumnName("delivery_end_time")
+                .HasColumnType("timestamp without time zone");
+            
+            a.Property(d => d.Shift)
+                .HasColumnName("delivery_shift");
         });
 
-        builder.Property(o => o.CreatedAt)
-            .HasDefaultValueSql("NOW()");
+        builder
+            .Property(o => o.CreatedAt)
+            .IsRequired();
+            
 
-        builder.Property(o => o.UpdatedAt)
-            .HasDefaultValueSql("NOW()");
+        builder
+            .Property(o => o.UpdatedAt)
+            .IsRequired(false);
     }
 }
