@@ -2,6 +2,7 @@ using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
 using PickGroup.API.Extensions;
 using PickGroup.Application.OrderAg.Order.CreateOrder;
+using PickGroup.Application.OrderAg.Order.GetOrder;
 using PickGroup.Domain.Orders;
 
 namespace PickGroup.API.Controllers;
@@ -18,6 +19,16 @@ public class OrderController : ControllerBase
     {
         var order = await handler.CreateOrderAsync(request, ct);
         
+        return order.ToResponse();
+    }
+
+    [HttpGet("{orderId:guid}")]
+    public async Task<ActionResult<GetOrderByIdResponse>> GetOrderById(
+        [FromServices] GetOrderByIdHandler handler,
+        [FromRoute] Guid orderId,
+        CancellationToken ct = default)
+    {
+        var order = await handler.GetOrderByIdAsync(orderId, ct);
         return order.ToResponse();
     }
 }
