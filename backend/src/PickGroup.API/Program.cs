@@ -1,3 +1,4 @@
+using PickGroup.Application;
 using PickGroup.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services
-    .AddInfrastructure();
+    .AddInfrastructure()
+    .AddApplication();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
