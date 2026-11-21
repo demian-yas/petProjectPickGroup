@@ -13,4 +13,9 @@ public interface IOrderRepository
     public Task<Domain.Orders.Order?> GetOrderByIdAsync(
         OrderId id, 
         CancellationToken cancellationToken = default);
+
+    public Task<List<Domain.Orders.Order>> GetOrdersAsync(
+        int page,
+        int pageSize, 
+        CancellationToken ct = default);
 }

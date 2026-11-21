@@ -25,7 +25,8 @@ public static class ResponseExtensions
             StatusCode = statusCode
         };
     }
-
+    
+    
     public static ActionResult ToResponse<T>(this Result<T, Error> result)
     {
         if (result.IsSuccess)

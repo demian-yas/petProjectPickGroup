@@ -4,6 +4,7 @@ using PickGroup.Application.OrderAg.Order;
 using PickGroup.Domain.Common;
 using PickGroup.Domain.Orders;
 using PickGroup.Domain.Orders.OrdersIds;
+using PickGroup.Infrastructure.Extensions;
 
 namespace PickGroup.Infrastructure.Repositories.OrderAgRepositories;
 
@@ -29,4 +30,16 @@ public class OrderRepository : IOrderRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(o => o.Id == id, ct);
     }
+
+    public async Task<List<Order>> GetOrdersAsync(
+        int page, 
+        int pageSize, 
+        CancellationToken ct = default)
+    {
+        return await _dbContext.Orders
+            .Include(i => i.Items)
+            .Paginate(page, pageSize)
+            .AsNoTracking()
+            .ToListAsync(ct);
+    } 
 }
