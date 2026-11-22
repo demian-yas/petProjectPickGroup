@@ -1,6 +1,7 @@
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
 using PickGroup.API.Extensions;
+using PickGroup.API.Response;
 using PickGroup.Application.OrderAg.Order.CreateOrder;
 using PickGroup.Application.OrderAg.Order.GetOrder;
 using PickGroup.Domain.Orders;
@@ -8,7 +9,7 @@ using PickGroup.Domain.Orders;
 namespace PickGroup.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("order")]
 public class OrderController : ControllerBase
 {
     [HttpPost]
@@ -30,5 +31,20 @@ public class OrderController : ControllerBase
     {
         var order = await handler.GetOrderByIdAsync(orderId, ct);
         return order.ToResponse();
+    }
+
+    [HttpGet("orders")]
+    public async Task<ActionResult<GetOrdersResponse>> GetOrders(
+        [FromServices] GetOrdersHandler handler,
+        [FromQuery] int page,
+        [FromQuery] int pageSize,
+        CancellationToken ct = default)
+    {
+        var orders = await handler.GetOrdersAsync(page, pageSize, ct);
+        
+        var result = PagedResponse<GetOrdersResponse>
+            .ToPagedResponse(orders, page, pageSize);
+        
+        return result.ToResponse();
     }
 }

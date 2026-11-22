@@ -9,12 +9,19 @@ public class GetOrdersHandler
         _orderRepository = orderRepository;
     }
 
-    //public async Task<IReadOnlyCollection<GetOrderResponse>> GetOrdersAsync(int page, int pageSize)
-    //{
-    //    var orders = await _orderRepository.GetOrdersAsync(pageSize, page);
-//
-    //    var orderItemsResponse = orders
-    //        .Select(x => x.Items)
-    //        .ToList();
-    //}
+    public async Task<IReadOnlyCollection<GetOrdersResponse>> GetOrdersAsync(
+        int page, 
+        int pageSize,
+        CancellationToken ct = default)
+    {
+        var orders = await _orderRepository.GetOrdersAsync(page, pageSize, ct);
+
+        var orderItemsResponse = orders
+            .Select(o => new GetOrdersResponse(
+                GetOrderResponse.GetOrderEntityData(o),
+                o.Items.Select(i => GetOrderItemsResponse.GetOrderItemsEntityData(i)).ToList()))
+            .ToList();
+        
+        return orderItemsResponse;
+    }
 }

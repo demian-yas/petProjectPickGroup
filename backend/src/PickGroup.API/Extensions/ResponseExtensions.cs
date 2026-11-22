@@ -36,4 +36,9 @@ public static class ResponseExtensions
 
         return result.Error.ToResponse();
     }
+
+    public static ActionResult ToResponse<T>(this T result)
+    {
+        return new OkObjectResult(Envelope.Ok(result));
+    }
 }

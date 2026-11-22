@@ -18,4 +18,6 @@ public interface IOrderRepository
         int page,
         int pageSize, 
         CancellationToken ct = default);
+    
+    public Task<int> OrdersCountAsync(CancellationToken ct = default);
 }

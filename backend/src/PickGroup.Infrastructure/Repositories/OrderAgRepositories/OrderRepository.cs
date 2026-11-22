@@ -37,9 +37,16 @@ public class OrderRepository : IOrderRepository
         CancellationToken ct = default)
     {
         return await _dbContext.Orders
-            .Include(i => i.Items)
-            .Paginate(page, pageSize)
             .AsNoTracking()
+            .Include(i => i.Items)
+            .OrderByDescending(o => o.CreatedAt)
+            .ThenBy(o => o.Id)
+            .Paginate(page, pageSize)
             .ToListAsync(ct);
-    } 
+    }
+
+    public async Task<int> OrdersCountAsync(CancellationToken ct = default)
+    {
+        return await _dbContext.Orders.CountAsync(ct);
+    }
 }

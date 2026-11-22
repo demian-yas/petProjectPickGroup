@@ -11,6 +11,7 @@ public static class Inject
     {
         services.AddScoped<CreateOrderHandler>();
         services.AddScoped<GetOrderByIdHandler>();
+        services.AddScoped<GetOrdersHandler>();
         
         return services;
     }
