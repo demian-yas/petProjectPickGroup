@@ -20,11 +20,15 @@ public class GetOrdersHandler
         int pageSize,
         CancellationToken ct = default)
     {
+        
         if (page < 1)
             return Errors.General.ValueIsInvalid("page", nameof(page));
         
-        if (pageSize < 1)
+        if (pageSize < 1 || pageSize > 100)
             return Errors.General.ValueIsInvalid("pageSize", nameof(pageSize));
+        
+        if ((long)(page - 1) * pageSize > int.MaxValue)
+            return Errors.General.ValueIsInvalid("page", nameof(page));
         
         var orders = await _orderReadRepository.GetOrdersAsync(page, pageSize, ct);
         
