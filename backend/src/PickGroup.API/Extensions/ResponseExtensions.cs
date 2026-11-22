@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
 using PickGroup.API.Response;
+using PickGroup.Application.Common.Pagination;
 using PickGroup.Domain.Common;
 
 namespace PickGroup.API.Extensions;
@@ -37,8 +38,13 @@ public static class ResponseExtensions
         return result.Error.ToResponse();
     }
 
-    public static ActionResult ToResponse<T>(this T result)
+    public static ActionResult ToResponse<T>(this Result<PagedResult<T>, Error> result)
     {
-        return new OkObjectResult(Envelope.Ok(result));
+        if (result.IsSuccess)
+        {
+            return new OkObjectResult(Envelope.Ok(PagedResponse<T>.ToPagedResponse(result.Value)));
+        }
+
+        return result.Error.ToResponse();
     }
 }

@@ -1,8 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
+using PickGroup.Application.OrderAg.Order.Repositories;
 using PickGroup.Domain.Common;
 using PickGroup.Domain.Orders.OrdersIds;
 
-namespace PickGroup.Application.OrderAg.Order.GetOrder;
+namespace PickGroup.Application.OrderAg.Order.Queries.GetOrderById;
 
 public class GetOrderByIdHandler
 {

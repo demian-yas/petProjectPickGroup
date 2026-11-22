@@ -1,4 +1,6 @@
-﻿namespace PickGroup.API.Response;
+﻿using PickGroup.Application.Common.Pagination;
+
+namespace PickGroup.API.Response;
 
 public record PagedResponse<T>
 {
@@ -8,22 +10,19 @@ public record PagedResponse<T>
     
     public int PageSize { get; }
     
-    public int TotalRecords => Data.Count();
+    public int TotalRecords { get; }
     
     public int TotalPages => (int)Math.Ceiling((double)TotalRecords / PageSize);
 
     public PagedResponse(
-        IEnumerable<T> data,
-        int pageNumber,
-        int pageSize)
+        PagedResult<T> results)
     {
-        Data = data;
-        PageNumber = pageNumber;
-        PageSize = pageSize;
+        Data = results.Results;
+        PageNumber = results.PageNumber;
+        PageSize = results.PageSize;
+        TotalRecords = results.TotalCount;
     }
     
     public static PagedResponse<T> ToPagedResponse(
-        IEnumerable<T> data,
-        int pageNumber,
-        int pageSize) => new PagedResponse<T>(data, pageNumber, pageSize);
+        PagedResult<T> results) => new PagedResponse<T>(results);
 }

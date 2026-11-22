@@ -14,4 +14,8 @@
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.14" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="OrderAg\Order\Commands\" />
+    </ItemGroup>
+
 </Project>

@@ -1,8 +1,7 @@
-﻿using CSharpFunctionalExtensions;
-using PickGroup.Domain.Common;
+﻿using PickGroup.Application.OrderAg.Order.Queries.GetOrders;
 using PickGroup.Domain.Orders.OrdersIds;
 
-namespace PickGroup.Application.OrderAg.Order;
+namespace PickGroup.Application.OrderAg.Order.Repositories;
 
 public interface IOrderRepository
 {
@@ -13,11 +12,4 @@ public interface IOrderRepository
     public Task<Domain.Orders.Order?> GetOrderByIdAsync(
         OrderId id, 
         CancellationToken cancellationToken = default);
-
-    public Task<List<Domain.Orders.Order>> GetOrdersAsync(
-        int page,
-        int pageSize, 
-        CancellationToken ct = default);
-    
-    public Task<int> OrdersCountAsync(CancellationToken ct = default);
 }

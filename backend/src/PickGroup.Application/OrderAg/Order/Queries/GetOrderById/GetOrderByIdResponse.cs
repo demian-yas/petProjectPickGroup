@@ -1,7 +1,7 @@
 ﻿using PickGroup.Domain.Orders;
 using PickGroup.Domain.Orders.OrderValueObjects;
 
-namespace PickGroup.Application.OrderAg.Order.GetOrder;
+namespace PickGroup.Application.OrderAg.Order.Queries.GetOrderById;
 
 public record GetOrderByIdResponse(GetOrderResponse Order, IReadOnlyCollection<GetOrderItemsResponse> Items);
 

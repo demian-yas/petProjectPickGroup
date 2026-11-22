@@ -1,7 +1,6 @@
 ﻿using PickGroup.Domain.Orders;
-using PickGroup.Domain.Orders.OrderValueObjects;
 
-namespace PickGroup.Application.OrderAg.Order.CreateOrder;
+namespace PickGroup.Application.OrderAg.Order.Commands.CreateOrder;
 
 public record CreateOrderRequest(CreateOrderRequestData Order, IReadOnlyCollection<CreateOrderItemsRequest> Items);
 

@@ -2,8 +2,10 @@ using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
 using PickGroup.API.Extensions;
 using PickGroup.API.Response;
-using PickGroup.Application.OrderAg.Order.CreateOrder;
-using PickGroup.Application.OrderAg.Order.GetOrder;
+using PickGroup.Application.Common.Pagination;
+using PickGroup.Application.OrderAg.Order.Commands.CreateOrder;
+using PickGroup.Application.OrderAg.Order.Queries.GetOrderById;
+using PickGroup.Application.OrderAg.Order.Queries.GetOrders;
 using PickGroup.Domain.Orders;
 
 namespace PickGroup.API.Controllers;
@@ -13,7 +15,7 @@ namespace PickGroup.API.Controllers;
 public class OrderController : ControllerBase
 {
     [HttpPost]
-    public async Task<ActionResult<Guid>> CreateOrder(
+    public async Task<ActionResult> CreateOrder(
         [FromServices] CreateOrderHandler handler,
         [FromBody] CreateOrderRequest request,
         CancellationToken ct = default)
@@ -24,17 +26,18 @@ public class OrderController : ControllerBase
     }
 
     [HttpGet("{orderId:guid}")]
-    public async Task<ActionResult<GetOrderByIdResponse>> GetOrderById(
+    public async Task<ActionResult> GetOrderById(
         [FromServices] GetOrderByIdHandler handler,
         [FromRoute] Guid orderId,
         CancellationToken ct = default)
     {
         var order = await handler.GetOrderByIdAsync(orderId, ct);
+        
         return order.ToResponse();
     }
 
     [HttpGet("orders")]
-    public async Task<ActionResult<GetOrdersResponse>> GetOrders(
+    public async Task<ActionResult> GetOrders(
         [FromServices] GetOrdersHandler handler,
         [FromQuery] int page,
         [FromQuery] int pageSize,
@@ -42,9 +45,6 @@ public class OrderController : ControllerBase
     {
         var orders = await handler.GetOrdersAsync(page, pageSize, ct);
         
-        var result = PagedResponse<GetOrdersResponse>
-            .ToPagedResponse(orders, page, pageSize);
-        
-        return result.ToResponse();
+        return orders.ToResponse();
     }
 }
