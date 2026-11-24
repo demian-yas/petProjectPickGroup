@@ -156,7 +156,48 @@ public class OrderTests
         
         //assert
         Assert.True(result.IsSuccess);
-        Assert.Equal(orderItem, order.Items.FirstOrDefault());
-        Assert.True(order.Items.Count == 1);
+        Assert.Equal(orderItem, Assert.Single(order.Items));
     }
+
+    [Fact]
+    public void AddItem_WhenItemIsNull_ShouldReturnFailure()
+    {
+        //arrange
+        var orderId = OrderId.NewOrderId();
+        var deliverySchedule = DeliverySchedule.Create("2026-11-18 14:00:00", "2026-11-18 15:00:00");
+        var resultOrder = Order.Create(
+            orderId: orderId,
+            orderNumber: "ORD-001",
+            externalId: null,
+            managerName: "Иван",
+            managerPhoneNumber: "+79991234567",
+            deliveryAddress: "Москва, ул. Ленина, 10",
+            deliverySchedule: deliverySchedule.Value);
+        
+        var orderItemId = OrderItemId.NewOrderItemId();
+        var resultOrderItem = OrderItem.Create(
+            orderItemId: orderItemId,
+            externalId: null,
+            storageLocationCode: "B-02-01",
+            productName: "Сахар 1 кг",
+            requiresManufactureDate: false,
+            comment: null,
+            requiredQuantity: 10,
+            unit: Unit.Kilograms);
+        
+        var order = resultOrder.Value;
+        var existedItem = resultOrderItem.Value;
+        var setupResult = order.AddItem(existedItem);
+        Assert.True(setupResult.IsSuccess);
+        
+        
+        //act
+        var result = order.AddItem(null!);
+        
+        //assert
+        Assert.True(result.IsFailure);
+        Assert.Equal(Errors.General.ValueIsEmpty("item"), result.Error);
+        Assert.Equal(existedItem, Assert.Single(order.Items));
+    }
+    
 }
