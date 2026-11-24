@@ -42,8 +42,8 @@ public class OrderTests
     [InlineData("ORD-001", " ", "+79991234567", "Москва", "managerName")]
     [InlineData("ORD-001", "Иван", " ", "Москва", "managerPhoneNumber")]
     [InlineData("ORD-001", "Иван", "+79991234567", " ", "deliveryAddress")]
-    public void Create_WhenParamIsNullOrWhiteSpace_ShouldReturnFailure(string orderNumber, string managerName,
-        string managerPhoneNumber, string deliveryAddress, string paramName)
+    public void Create_WhenParamIsNullOrWhiteSpace_ShouldReturnFailure(string? orderNumber, string? managerName,
+        string? managerPhoneNumber, string? deliveryAddress, string paramName)
     {
         //arrange
         var deliverySchedule = DeliverySchedule.Create("2026-11-18 14:00:00", "2026-11-18 15:00:00");
@@ -52,11 +52,11 @@ public class OrderTests
         //act
         var result = Order.Create(
             orderId: orderId,
-            orderNumber: orderNumber,
+            orderNumber: orderNumber!,
             externalId: null,
-            managerName: managerName,
-            managerPhoneNumber: managerPhoneNumber,
-            deliveryAddress: deliveryAddress,
+            managerName: managerName!,
+            managerPhoneNumber: managerPhoneNumber!,
+            deliveryAddress: deliveryAddress!,
             deliverySchedule: deliverySchedule.Value);
         
         //assert
@@ -148,9 +148,10 @@ public class OrderTests
             requiredQuantity: 10,
             unit: Unit.Kilograms);
         
-        //act
         var order = resultOrder.Value;
         var orderItem = resultOrderItem.Value;
+        
+        //act
         
         var result = order.AddItem(orderItem);
         
@@ -199,5 +200,161 @@ public class OrderTests
         Assert.Equal(Errors.General.ValueIsEmpty("item"), result.Error);
         Assert.Equal(existedItem, Assert.Single(order.Items));
     }
-    
+
+    [Fact]
+    public void AddItems_WhenItemsIsValid_OrderItemsAdded()
+    {
+        //arrange
+        var orderId = OrderId.NewOrderId();
+        var deliverySchedule = DeliverySchedule.Create("2026-11-18 14:00:00", "2026-11-18 15:00:00");
+        var resultOrder = Order.Create(
+            orderId: orderId,
+            orderNumber: "ORD-001",
+            externalId: null,
+            managerName: "Иван",
+            managerPhoneNumber: "+79991234567",
+            deliveryAddress: "Москва, ул. Ленина, 10",
+            deliverySchedule: deliverySchedule.Value);
+        
+        var orderItemIdOne = OrderItemId.NewOrderItemId();
+        var resultOrderItemOne = OrderItem.Create(
+            orderItemId: orderItemIdOne,
+            externalId: null,
+            storageLocationCode: "B-02-01",
+            productName: "Сахар 1 кг",
+            requiresManufactureDate: false,
+            comment: null,
+            requiredQuantity: 10,
+            unit: Unit.Kilograms);
+        
+        var orderItemIdTwo = OrderItemId.NewOrderItemId();
+        var resultOrderItemTwo = OrderItem.Create(
+            orderItemId: orderItemIdTwo,
+            externalId: null,
+            storageLocationCode: "B-02-01",
+            productName: "Сахар 1 кг",
+            requiresManufactureDate: false,
+            comment: null,
+            requiredQuantity: 10,
+            unit: Unit.Kilograms);
+        
+        var order = resultOrder.Value;
+        var existedItemOne = resultOrderItemOne.Value;
+        var existedItemTwo = resultOrderItemTwo.Value;
+        List<OrderItem> orderItems = new List<OrderItem>() { existedItemOne, existedItemTwo };
+        
+        //act
+        var result = order.AddItems(orderItems);
+        
+        //assert
+        Assert.True(result.IsSuccess);
+        Assert.Equal(orderItems, order.Items);
+    }
+
+    [Fact]
+    public void AddItems_WhenItemsIsNull_ShouldReturnFailure()
+    {
+        // arrange
+        var orderId = OrderId.NewOrderId();
+        var deliverySchedule = DeliverySchedule.Create("2026-11-18 14:00:00", "2026-11-18 15:00:00");
+        var resultOrder = Order.Create(
+            orderId: orderId,
+            orderNumber: "ORD-001",
+            externalId: null,
+            managerName: "Иван",
+            managerPhoneNumber: "+79991234567",
+            deliveryAddress: "Москва, ул. Ленина, 10",
+            deliverySchedule: deliverySchedule.Value);
+        
+        var order = resultOrder.Value;
+        
+        // act
+        var result = order.AddItems(null!);
+        
+        //assert
+        Assert.True(result.IsFailure);
+        Assert.Equal(Errors.General.ValueIsEmpty("items"), result.Error);
+        Assert.Empty(order.Items);
+    }
+
+    [Fact]
+    public void AddItems_WhenItemsIsEmpty_ShouldReturnFailure()
+    {
+        //arrange
+        var orderId = OrderId.NewOrderId();
+        var deliverySchedule = DeliverySchedule.Create("2026-11-18 14:00:00", "2026-11-18 15:00:00");
+        var resultOrder = Order.Create(
+            orderId: orderId,
+            orderNumber: "ORD-001",
+            externalId: null,
+            managerName: "Иван",
+            managerPhoneNumber: "+79991234567",
+            deliveryAddress: "Москва, ул. Ленина, 10",
+            deliverySchedule: deliverySchedule.Value);
+        
+        var order = resultOrder.Value;
+
+        List<OrderItem> orderItems = new List<OrderItem>() { };
+        Assert.Empty(orderItems);
+        
+        // act
+        var result = order.AddItems(orderItems);
+        
+        //assert
+        Assert.True(result.IsFailure);
+        Assert.Equal(Errors.General.ValueIsEmpty("items"), result.Error);
+        Assert.Empty(order.Items);
+    }
+
+    [Fact]
+    public void AddItems_WhenAnyItemsIsNull_ShouldReturnFailure()
+    {
+        //arrange
+        var orderId = OrderId.NewOrderId();
+        var deliverySchedule = DeliverySchedule.Create("2026-11-18 14:00:00", "2026-11-18 15:00:00");
+        var resultOrder = Order.Create(
+            orderId: orderId,
+            orderNumber: "ORD-001",
+            externalId: null,
+            managerName: "Иван",
+            managerPhoneNumber: "+79991234567",
+            deliveryAddress: "Москва, ул. Ленина, 10",
+            deliverySchedule: deliverySchedule.Value);
+        
+        var orderItemIdOne = OrderItemId.NewOrderItemId();
+        var resultOrderItemOne = OrderItem.Create(
+            orderItemId: orderItemIdOne,
+            externalId: null,
+            storageLocationCode: "B-02-01",
+            productName: "Сахар 1 кг",
+            requiresManufactureDate: false,
+            comment: null,
+            requiredQuantity: 10,
+            unit: Unit.Kilograms);
+        
+        var orderItemIdTwo = OrderItemId.NewOrderItemId();
+        var resultOrderItemTwo = OrderItem.Create(
+            orderItemId: orderItemIdTwo,
+            externalId: null,
+            storageLocationCode: "B-02-01",
+            productName: "Сахар 1 кг",
+            requiresManufactureDate: false,
+            comment: null,
+            requiredQuantity: 10,
+            unit: Unit.Kilograms);
+        
+        var order = resultOrder.Value;
+        var existedItemOne = resultOrderItemOne.Value;
+        var existedItemTwo = resultOrderItemTwo.Value;
+        
+        List<OrderItem> orderItems = new List<OrderItem>() { existedItemOne, null!, existedItemTwo };
+        
+        //act
+        var result = order.AddItems(orderItems);
+        
+        //assert
+        Assert.True(result.IsFailure);
+        Assert.Equal(Errors.General.ValueIsEmpty("items"), result.Error);
+        Assert.Empty(order.Items);
+    }
 }
