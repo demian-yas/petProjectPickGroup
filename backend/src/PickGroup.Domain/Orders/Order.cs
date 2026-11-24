@@ -78,16 +78,16 @@ public class Order : Common.Entity<OrderId>
         if (orderId is null)
             return Errors.General.ValueIsEmpty("orderId");
         
-        if (string.IsNullOrEmpty(orderNumber))
+        if (string.IsNullOrWhiteSpace(orderNumber))
             return Errors.General.ValueIsEmpty("orderNumber");
         
-        if (string.IsNullOrEmpty(managerName))
+        if (string.IsNullOrWhiteSpace(managerName))
             return Errors.General.ValueIsEmpty("managerName");
         
-        if (string.IsNullOrEmpty(managerPhoneNumber))
+        if (string.IsNullOrWhiteSpace(managerPhoneNumber))
             return Errors.General.ValueIsEmpty("managerPhoneNumber");
         
-        if (string.IsNullOrEmpty(deliveryAddress))
+        if (string.IsNullOrWhiteSpace(deliveryAddress))
             return Errors.General.ValueIsEmpty("deliveryAddress");
         
         if (deliverySchedule is null)
