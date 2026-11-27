@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/tests/">
+    <Project Path="services/OrderService/tests/PickGroup.OrderService.UnitTests/PickGroup.OrderService.UnitTests.csproj" />
+  </Folder>
+  <Project Path="services/OrderService/src/PickGroup.OrderService.API/PickGroup.OrderService.API.csproj" />
+  <Project Path="services/OrderService/src/PickGroup.OrderService.Application/PickGroup.OrderService.Application.csproj" />
+  <Project Path="services/OrderService/src/PickGroup.OrderService.Domain/PickGroup.OrderService.Domain.csproj" />
+  <Project Path="services/OrderService/src/PickGroup.OrderService.Infrastructure/PickGroup.OrderService.Infrastructure.csproj" />
+</Solution>
